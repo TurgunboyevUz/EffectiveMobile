@@ -1,8 +1,8 @@
 # Effective Mobile тестовое задание
 
-Stack: PHP 8.5 (Laravel), MySQL
-Authorization: Laravel Sanctum
-API Docs: Scramble Dedoc
+* Stack: PHP 8.5 (Laravel), MySQL
+* Authorization: Laravel Sanctum
+* API Docs: Scramble Dedoc
 
 ------
 
