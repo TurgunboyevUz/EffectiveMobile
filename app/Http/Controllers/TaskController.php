@@ -33,9 +33,7 @@ class TaskController extends Controller
         DB::beginTransaction();
 
         try {
-            $task = Task::create(array_merge($request->validated(), [
-                'user_id' => $request->user()->id,
-            ]));
+            $task = $request->user()->tasks()->create($request->validated());
 
             DB::commit();
 
@@ -50,14 +48,10 @@ class TaskController extends Controller
      */
     public function show(Request $request, $task)
     {
-        $task = Task::find($task);
+        $task = $request->user()->tasks()->find($task);
 
         if(!$task){
             return $this->error("Задач с этим идентификатором не найдено.", Response::HTTP_NOT_FOUND);
-        }
-
-        if ($request->user()->id != $task->user_id) {
-            return $this->error('Данная задача к вам не относится.', Response::HTTP_UNAUTHORIZED);
         }
 
         return $this->success(new TaskResource($task));
@@ -68,14 +62,10 @@ class TaskController extends Controller
      */
     public function update(TaskUpdateRequest $request, $task)
     {
-        $task = Task::find($task);
+        $task = $request->user()->tasks()->find($task);
 
         if(!$task){
             return $this->error("Задач с этим идентификатором не найдено.", Response::HTTP_NOT_FOUND);
-        }
-
-        if ($request->user()->id != $task->user_id) {
-            return $this->error('Данная задача к вам не относится.', Response::HTTP_UNAUTHORIZED);
         }
 
         $data = array_filter($request->validated(), fn($value) => ! empty($value));
@@ -110,14 +100,10 @@ class TaskController extends Controller
      */
     public function destroy(Request $request, $task)
     {
-        $task = Task::find($task);
+        $task = $request->user()->tasks()->find($task);
 
         if(!$task){
             return $this->error("Задач с этим идентификатором не найдено.", Response::HTTP_NOT_FOUND);
-        }
-
-        if ($request->user()->id != $task->user_id) {
-            return $this->error('Данная задача к вам не относится.', Response::HTTP_UNAUTHORIZED);
         }
 
         DB::beginTransaction();
