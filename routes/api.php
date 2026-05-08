@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('auth/login', [AuthController::class, 'login']);
-Route::post('auth/logout', [AuthController::class, 'logout']);
-
 Route::post('user/register', [UserController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function(){
+    Route::post('auth/logout', [AuthController::class, 'logout']);
+
     Route::prefix('user')->group(function(){
         Route::get('me', [UserController::class, 'me']);
         Route::put('update', [UserController::class, 'update']);

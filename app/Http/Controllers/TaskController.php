@@ -48,8 +48,14 @@ class TaskController extends Controller
     /**
      * Просмотр одной задачи
      */
-    public function show(Request $request, Task $task)
+    public function show(Request $request, $task)
     {
+        $task = Task::find($task);
+
+        if(!$task){
+            return $this->error("Задач с этим идентификатором не найдено.", Response::HTTP_NOT_FOUND);
+        }
+
         if ($request->user()->id != $task->user_id) {
             return $this->error('Данная задача к вам не относится.', Response::HTTP_UNAUTHORIZED);
         }
@@ -60,8 +66,14 @@ class TaskController extends Controller
     /**
      * Обновление задачи
      */
-    public function update(TaskUpdateRequest $request, Task $task)
+    public function update(TaskUpdateRequest $request, $task)
     {
+        $task = Task::find($task);
+
+        if(!$task){
+            return $this->error("Задач с этим идентификатором не найдено.", Response::HTTP_NOT_FOUND);
+        }
+
         if ($request->user()->id != $task->user_id) {
             return $this->error('Данная задача к вам не относится.', Response::HTTP_UNAUTHORIZED);
         }
@@ -96,8 +108,14 @@ class TaskController extends Controller
     /**
      * Удаление задачи
      */
-    public function destroy(Request $request, Task $task)
+    public function destroy(Request $request, $task)
     {
+        $task = Task::find($task);
+
+        if(!$task){
+            return $this->error("Задач с этим идентификатором не найдено.", Response::HTTP_NOT_FOUND);
+        }
+
         if ($request->user()->id != $task->user_id) {
             return $this->error('Данная задача к вам не относится.', Response::HTTP_UNAUTHORIZED);
         }

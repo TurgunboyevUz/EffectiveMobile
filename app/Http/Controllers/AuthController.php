@@ -27,15 +27,12 @@ class AuthController extends Controller
         $token = $user->createToken('access-token')->plainTextToken;
 
         return $this->success([
-            'user' => new UserResource($user),
             'token' => $token
         ]);
     }
 
     /**
      * Выход из аккаунта
-     * 
-     * @unauthenticated
      */
     public function logout(Request $request)
     {
